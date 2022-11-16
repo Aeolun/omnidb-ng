@@ -14,19 +14,15 @@ RUN apt install -y curl wget vim python3 sudo
 RUN apt install -y libsasl2-dev python3-dev python3-pip libldap2-dev libssl-dev 
 
 WORKDIR /
-RUN python3 -c "$(curl -fsSL https://pgsql-io-download.s3.amazonaws.com/REPO/install.py)"
-RUN /pgsql/io install instantclient 21.6
 
-ENV ORACLE_HOME=/opt/instantclient_21_6
 ENV LD_LIBRARY_PATH=${ORACLE_HOME}
 ENV PATH=/usr/local/bin:/home/omnidb/.local/bin:$ORACLE_HOME:$PATH
-RUN /pgsql/io install ora2pg
 
 USER omnidb:omnidb
 ENV HOME /home/omnidb
 
 WORKDIR ${HOME}
-RUN wget https://github.com/pgsql-io/OmniDB-NG/archive/${OMNIDB_VERSION}.tar.gz \
+RUN wget https://github.com/aeolun/omnidb-ng/archive/${OMNIDB_VERSION}.tar.gz \
     && tar -xf ${OMNIDB_VERSION}.tar.gz \
     && mv omnidb-ng-${OMNIDB_VERSION} OmniDB
 
